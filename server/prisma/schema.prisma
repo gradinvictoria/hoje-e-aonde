@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Cadastro de negócios/organizadores interessados em divulgar no Hoje é aonde?,
+// enviado pelo formulário "Quero divulgar" do site institucional.
+model Lead {
+  id           String   @id @default(cuid())
+  nome         String
+  tipoNegocio  String
+  contato      String
+  mensagem     String?
+  criadoEm     DateTime @default(now())
+}

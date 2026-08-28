@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: hoje-e-aonde-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: ADMIN_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production

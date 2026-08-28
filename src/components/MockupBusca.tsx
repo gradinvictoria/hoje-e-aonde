@@ -45,11 +45,11 @@ export function MockupBusca() {
   return (
     <section id="busca" className="bg-white px-6 py-24 md:px-12 md:py-28">
       <div className="mx-auto max-w-[1240px]">
-        <p className="text-sm font-bold text-orange">MOCKUP DA BUSCA</p>
+        <p className="text-sm font-bold text-orange">BUSCA PERSONALIZADA</p>
         <h2 className="mt-3 font-display text-4xl font-extrabold text-ink sm:text-5xl">Filtre do seu jeito.</h2>
 
         <div className="relative mt-16">
-          <div className="absolute -inset-6 -z-10 hidden rotate-[3deg] rounded-[36px] bg-orange sm:block" />
+          <div className="absolute -top-1 -right-1 -bottom-10 -left-10 -z-10 hidden rounded-[36px] bg-orange sm:block" />
           <div className="rotate-0 rounded-[28px] border-[3px] border-ink bg-white p-6 shadow-2xl sm:-rotate-[2deg] sm:p-8">
             <div className="flex items-center gap-4 rounded-2xl bg-[#F5F5F5] px-5 py-4">
               <span>🔎</span>

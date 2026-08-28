@@ -1,18 +1,25 @@
 import { useLeadModal } from '../lib/leadModal'
 
+// Posições em % calculadas a partir das coordenadas exatas do frame
+// "hero-composition" (620×560) na página V2 do Figma — não são estimativas.
+const COMP_W = 620
+const COMP_H = 560
+
 const FRAGMENTS = [
-  { title: 'A Barista', meta: '☕ Cafeteria', bg: 'bg-yellow', className: 'left-0 top-0 w-56 rotate-[-11deg]' },
-  { title: 'Roda de Samba', meta: '🎵 Hoje às 20h', bg: 'bg-pink', className: 'right-0 top-8 w-56 rotate-[8deg]' },
-  { title: 'Aula de Cerâmica', meta: '🏺 Para iniciantes', bg: 'bg-orange', className: 'left-4 top-56 w-52 rotate-[6deg]' },
-  { title: 'Sundown Bar', meta: '🍹 Aberto agora', bg: 'bg-[#FDE186]', className: 'right-2 top-72 w-56 rotate-[-7deg]' },
+  { title: 'A Barista', meta: '☕ Cafeteria', bg: 'bg-yellow', x: 60, y: 0, w: 250, h: 200, rot: -11 },
+  { title: 'Roda de Samba', meta: '🎵 Hoje às 20h', bg: 'bg-pink', x: 340, y: 40, w: 260, h: 210, rot: 8 },
+  { title: 'Aula de Cerâmica', meta: '🏺 Para iniciantes', bg: 'bg-orange', x: 20, y: 270, w: 240, h: 220, rot: 6 },
+  { title: 'Sundown Bar', meta: '🍹 Aberto agora', bg: 'bg-[#FDE186]', x: 310, y: 300, w: 270, h: 220, rot: -7 },
 ]
 
 const BADGES = [
-  { label: '📍 Salvador', className: 'left-0 top-[210px] -rotate-6 bg-white text-ink' },
-  { label: 'Aberto agora', className: 'right-10 bottom-0 rotate-3 bg-orange text-white' },
-  { label: '★★★★★', className: 'right-8 top-0 rotate-6 bg-ink text-white' },
-  { label: '🐶 Pet Friendly', className: 'left-0 bottom-2 -rotate-3 bg-white text-ink' },
+  { label: '📍 Salvador', x: 0, y: 225, rot: -6, className: 'bg-white text-ink' },
+  { label: 'Aberto agora', x: 250, y: 530, rot: 4, className: 'bg-orange text-white' },
+  { label: '★★★★★', x: 430, y: 10, rot: 10, className: 'bg-ink text-white' },
+  { label: '🐶 Pet Friendly', x: 0, y: 520, rot: -3, className: 'bg-white text-ink' },
 ]
+
+const pct = (v: number, total: number) => `${(v / total) * 100}%`
 
 export function Hero() {
   const { open } = useLeadModal()
@@ -44,13 +51,23 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto hidden h-[420px] w-full max-w-[560px] md:block">
+        <div
+          className="relative mx-auto hidden w-full max-w-[560px] md:block"
+          style={{ aspectRatio: `${COMP_W} / ${COMP_H}` }}
+        >
           {FRAGMENTS.map((f) => (
             <div
               key={f.title}
-              className={`absolute overflow-hidden rounded-2xl bg-white shadow-[0_18px_36px_rgba(0,0,0,0.35)] ${f.className}`}
+              className={`absolute overflow-hidden rounded-2xl bg-white shadow-[0_18px_36px_rgba(0,0,0,0.35)]`}
+              style={{
+                left: pct(f.x, COMP_W),
+                top: pct(f.y, COMP_H),
+                width: pct(f.w, COMP_W),
+                height: pct(f.h, COMP_H),
+                transform: `rotate(${f.rot}deg)`,
+              }}
             >
-              <div className={`h-24 w-full ${f.bg}`} />
+              <div className={`h-[62%] w-full ${f.bg}`} />
               <div className="bg-white p-4">
                 <p className="text-sm font-bold text-ink">{f.title}</p>
                 <p className="text-xs text-muted">{f.meta}</p>
@@ -60,7 +77,8 @@ export function Hero() {
           {BADGES.map((b) => (
             <span
               key={b.label}
-              className={`absolute rounded-full px-4 py-2.5 text-[13px] font-bold shadow-lg ${b.className}`}
+              className={`absolute whitespace-nowrap rounded-full px-4 py-2.5 text-[13px] font-bold shadow-lg ${b.className}`}
+              style={{ left: pct(b.x, COMP_W), top: pct(b.y, COMP_H), transform: `rotate(${b.rot}deg)` }}
             >
               {b.label}
             </span>

@@ -1,10 +1,10 @@
 import { useLeadModal } from '../lib/leadModal'
 
 const FRAGMENTS = [
-  { title: 'A Barista', meta: '☕ Cafeteria', bg: 'bg-yellow', dark: false, className: 'left-0 top-0 w-56 rotate-[-11deg]' },
-  { title: 'Roda de Samba', meta: '🎵 Hoje às 20h', bg: 'bg-pink', dark: true, className: 'right-0 top-8 w-56 rotate-[8deg]' },
-  { title: 'Aula de Cerâmica', meta: '🏺 Para iniciantes', bg: 'bg-orange', dark: false, className: 'left-4 top-56 w-52 rotate-[6deg]' },
-  { title: 'Sundown Bar', meta: '🍹 Aberto agora', bg: 'bg-ink', dark: true, className: 'right-2 top-72 w-56 rotate-[-7deg]' },
+  { title: 'A Barista', meta: '☕ Cafeteria', bg: 'bg-yellow', className: 'left-0 top-0 w-56 rotate-[-11deg]' },
+  { title: 'Roda de Samba', meta: '🎵 Hoje às 20h', bg: 'bg-pink', className: 'right-0 top-8 w-56 rotate-[8deg]' },
+  { title: 'Aula de Cerâmica', meta: '🏺 Para iniciantes', bg: 'bg-orange', className: 'left-4 top-56 w-52 rotate-[6deg]' },
+  { title: 'Sundown Bar', meta: '🍹 Aberto agora', bg: 'bg-[#FDE186]', className: 'right-2 top-72 w-56 rotate-[-7deg]' },
 ]
 
 const BADGES = [
@@ -51,9 +51,9 @@ export function Hero() {
               className={`absolute overflow-hidden rounded-2xl bg-white shadow-[0_18px_36px_rgba(0,0,0,0.35)] ${f.className}`}
             >
               <div className={`h-24 w-full ${f.bg}`} />
-              <div className={`p-4 ${f.dark ? 'bg-ink' : 'bg-white'}`}>
-                <p className={`text-sm font-bold ${f.dark ? 'text-white' : 'text-ink'}`}>{f.title}</p>
-                <p className={`text-xs ${f.dark ? 'text-[#B8ADA0]' : 'text-muted'}`}>{f.meta}</p>
+              <div className="bg-white p-4">
+                <p className="text-sm font-bold text-ink">{f.title}</p>
+                <p className="text-xs text-muted">{f.meta}</p>
               </div>
             </div>
           ))}

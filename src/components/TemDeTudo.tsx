@@ -15,14 +15,15 @@ export function TemDeTudo() {
       <div className="mx-auto max-w-[1320px]">
         <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
           <div>
-            <p className="text-sm font-bold text-ink">TEM DE TUDO</p>
-            <h2 className="mt-4 font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">
+            <p className="text-sm font-extrabold text-ink">TEMOS DE TUDO</p>
+            <h2 className="mt-4 max-w-[820px] font-display text-4xl font-extrabold leading-tight text-white sm:text-5xl">
               Do rolê mais óbvio ao programa que você nem sabia que existia.
             </h2>
           </div>
-          <p className="self-end text-[15px] text-[#3A1200] lg:text-right">
-            No Hoje é aonde?, você encontra muito mais do que restaurantes. Lugares, pessoas,
-            atividades, eventos e experiências que combinam com o seu momento.
+          <p className="self-end text-[20px] font-bold text-[#3A1200] lg:text-right">
+            No <em className="font-black italic">Hoje é aonde?</em> você encontra muito
+            mais do que restaurantes. Lugares, pessoas, atividades, eventos e experiências que
+            combinam com o seu momento.
           </p>
         </div>
 

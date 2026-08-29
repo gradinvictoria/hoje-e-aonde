@@ -18,7 +18,12 @@ export function Header() {
         </a>
 
         <nav className="hidden items-center gap-9 lg:flex">
-          <Link to="/explorar" className="text-[15px] font-medium text-ink hover:text-orange">
+          <Link
+            to="/explorar"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[15px] font-medium text-ink hover:text-orange"
+          >
             Explorar
           </Link>
           {NAV_LINKS.map((link) => (
@@ -37,6 +42,8 @@ export function Header() {
           </button>
           <Link
             to="/explorar"
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white hover:bg-orange"
           >
             Explorar agora

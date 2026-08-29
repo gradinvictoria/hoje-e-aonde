@@ -55,30 +55,34 @@ export function Home() {
     <div className="min-h-screen bg-white">
       <AppHeader />
 
-      <section className="bg-ink px-6 py-20 text-center md:px-12">
-        <h1 className="mx-auto max-w-2xl font-display text-3xl font-bold text-white md:text-5xl">
-          O que você quer fazer hoje?
-        </h1>
-        <p className="mx-auto mt-4 max-w-lg text-[15px] text-[#d8cfc4] md:text-lg">
-          Descubra lugares, experiências, aulas e eventos perto de você.
-        </p>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            navigate(`/busca${q ? `?q=${encodeURIComponent(q)}` : ''}`)
-          }}
-          className="mx-auto mt-8 flex max-w-xl flex-col gap-3 sm:flex-row"
-        >
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar por lugar, categoria ou vibe..."
-            className="flex-1 rounded-full px-6 py-4 text-sm text-ink placeholder:text-muted-light focus:outline-none"
-          />
-          <button type="submit" className="rounded-full bg-orange px-8 py-4 text-sm font-bold text-white">
-            Buscar
-          </button>
-        </form>
+      <section className="bg-ink px-6 py-8 md:px-12">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
+          <div>
+            <h1 className="font-display text-2xl font-bold text-white md:text-3xl">
+              O que você quer fazer hoje?
+            </h1>
+            <p className="mt-2 max-w-md text-sm text-[#d8cfc4] md:text-base">
+              Descubra lugares, experiências, aulas e eventos perto de você.
+            </p>
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              navigate(`/busca${q ? `?q=${encodeURIComponent(q)}` : ''}`)
+            }}
+            className="flex w-full max-w-md flex-col gap-3 sm:flex-row md:w-auto md:min-w-[380px]"
+          >
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Buscar por lugar, categoria ou vibe..."
+              className="flex-1 rounded-full px-6 py-4 text-sm text-ink placeholder:text-muted-light focus:outline-none"
+            />
+            <button type="submit" className="rounded-full bg-orange px-8 py-4 text-sm font-bold text-white">
+              Buscar
+            </button>
+          </form>
+        </div>
       </section>
 
       <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20">

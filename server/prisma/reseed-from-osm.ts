@@ -32,7 +32,7 @@ async function main() {
     console.log(
       `  ${picked.length} local(is) encontrado(s) em ${city}: ${[...new Set(picked.map((p) => p.category))].join(", ")}`,
     );
-    await sleep(1500); // não martela o Overpass público
+    await sleep(8000); // não martela o Overpass público (evita 429)
   }
 
   if (toCreate.length === 0) {

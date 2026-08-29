@@ -51,7 +51,7 @@ export async function fetchOsmPlaces(city: string): Promise<{ category: string; 
     out body 300;
   `.trim();
 
-  const maxAttempts = 3;
+  const maxAttempts = 5;
   let lastError: unknown;
   let data: { elements: { id: number; lat: number; lon: number; tags?: OsmTags }[] } | null = null;
 
@@ -62,11 +62,22 @@ export async function fetchOsmPlaces(city: string): Promise<{ category: string; 
         headers: { "Content-Type": "text/plain", "User-Agent": USER_AGENT },
         body: query,
       });
+      if (res.status === 429) {
+        // Overpass público: 429 quando há uso simultâneo demais. Respeita
+        // Retry-After quando presente, senão espera progressivamente mais.
+        const retryAfter = Number(res.headers.get("retry-after"));
+        const wait = Number.isFinite(retryAfter) && retryAfter > 0 ? retryAfter * 1000 : 15000 * attempt;
+        throw Object.assign(new Error(`Overpass respondeu 429 (rate limit) para "${city}"`), { wait });
+      }
       if (!res.ok) throw new Error(`Overpass respondeu ${res.status} para "${city}"`);
       data = (await res.json()) as { elements: { id: number; lat: number; lon: number; tags?: OsmTags }[] };
     } catch (err) {
       lastError = err;
-      if (attempt < maxAttempts) await sleep(3000 * attempt); // servidor público, dá 504 sob carga
+      if (attempt < maxAttempts) {
+        const wait = (err as { wait?: number })?.wait ?? 3000 * attempt;
+        console.log(`  (tentativa ${attempt} falhou para "${city}", aguardando ${Math.round(wait / 1000)}s...)`);
+        await sleep(wait);
+      }
     }
   }
   if (!data) throw lastError instanceof Error ? lastError : new Error(String(lastError));
@@ -74,10 +85,12 @@ export async function fetchOsmPlaces(city: string): Promise<{ category: string; 
   const results: { category: string; osm: OsmPlace }[] = [];
   for (const el of data.elements) {
     const tags = el.tags ?? {};
-    if (!tags.name) continue;
+    const name = tags.name?.trim();
+    // Descarta tags mal preenchidas no OSM (nome vazio, só número, etc.)
+    if (!name || name.length < 3 || /^\d+$/.test(name)) continue;
     const category = categorize(tags);
     if (!category) continue;
-    results.push({ category, osm: { id: el.id, name: tags.name, lat: el.lat, lng: el.lon, tags } });
+    results.push({ category, osm: { id: el.id, name, lat: el.lat, lng: el.lon, tags } });
   }
   return results;
 }

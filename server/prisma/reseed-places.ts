@@ -4,12 +4,14 @@ import { places, photos } from "./placesData";
 
 const prisma = new PrismaClient();
 
+// Substitui todo o conteúdo de Place por placesData.ts — usado para trocar
+// a cidade demo (ex: São Paulo → Salvador/Rio/BH) num banco que já foi
+// seedado, já que o seed normal pula quando a tabela não está vazia.
+// Confirmado com o usuário: são dados fictícios de demonstração, sem
+// conteúdo real de usuário.
 async function main() {
-  const existing = await prisma.place.count();
-  if (existing > 0) {
-    console.log(`Seed pulado: já existem ${existing} estabelecimentos no banco.`);
-    return;
-  }
+  const { count } = await prisma.place.deleteMany({});
+  console.log(`Removidos ${count} estabelecimento(s) antigo(s).`);
 
   for (const place of places) {
     const slug = place.name
@@ -26,7 +28,7 @@ async function main() {
     });
   }
 
-  console.log(`Seed concluído: ${places.length} estabelecimentos criados.`);
+  console.log(`Reseed concluído: ${places.length} estabelecimentos criados.`);
 }
 
 main()

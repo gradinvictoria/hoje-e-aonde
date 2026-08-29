@@ -24,7 +24,9 @@ app.use(
 app.use(express.json());
 
 app.get("/api/health", (_req, res) => {
-  res.json({ ok: true });
+  // RENDER_GIT_COMMIT é preenchido automaticamente pelo Render a cada deploy —
+  // usado pra confirmar de fora que o deploy mais recente já está no ar.
+  res.json({ ok: true, commit: process.env.RENDER_GIT_COMMIT ?? null });
 });
 
 app.use("/api/leads", leadsRouter);

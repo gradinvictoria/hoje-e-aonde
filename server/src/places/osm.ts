@@ -28,6 +28,13 @@ const CATEGORY_RULES: CategoryRule[] = [
   { category: "Trilha", match: (t) => t.tourism === "viewpoint" || t.natural === "peak" },
 ];
 
+function describeError(err: unknown): string {
+  if (!(err instanceof Error)) return String(err);
+  const cause = (err as { cause?: unknown }).cause;
+  const causeStr = cause instanceof Error ? ` (causa: ${cause.message})` : cause ? ` (causa: ${String(cause)})` : "";
+  return `${err.message}${causeStr}`;
+}
+
 function categorize(tags: OsmTags): string | null {
   for (const rule of CATEGORY_RULES) {
     if (rule.match(tags)) return rule.category;
@@ -73,14 +80,16 @@ export async function fetchOsmPlaces(city: string): Promise<{ category: string; 
       data = (await res.json()) as { elements: { id: number; lat: number; lon: number; tags?: OsmTags }[] };
     } catch (err) {
       lastError = err;
+      console.log(`  (tentativa ${attempt} falhou para "${city}": ${describeError(err)})`);
       if (attempt < maxAttempts) {
         const wait = (err as { wait?: number })?.wait ?? 3000 * attempt;
-        console.log(`  (tentativa ${attempt} falhou para "${city}", aguardando ${Math.round(wait / 1000)}s...)`);
         await sleep(wait);
       }
     }
   }
-  if (!data) throw lastError instanceof Error ? lastError : new Error(String(lastError));
+  if (!data) {
+    throw new Error(`Falha ao consultar Overpass para "${city}" após ${maxAttempts} tentativas: ${describeError(lastError)}`);
+  }
 
   const results: { category: string; osm: OsmPlace }[] = [];
   for (const el of data.elements) {

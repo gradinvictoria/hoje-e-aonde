@@ -90,3 +90,11 @@ export async function fetchPlacesMeta(): Promise<PlacesMeta> {
 export function priceLabel(level: 1 | 2 | 3): string {
   return level === 1 ? '$' : level === 2 ? '$$' : '$$$'
 }
+
+// Quando o OSM não tem o bairro cadastrado, neighborhood cai pro nome da
+// cidade (ex: "Salvador, Salvador") — nesse caso mostra "Cidade, UF" em vez
+// de repetir a cidade duas vezes.
+export function placeLocationLabel(place: Pick<Place, 'neighborhood' | 'city' | 'state'>): string {
+  if (place.neighborhood === place.city) return `${place.city}, ${place.state}`
+  return `${place.neighborhood}, ${place.city}`
+}

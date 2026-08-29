@@ -1,4 +1,4 @@
-import { priceLabel, type Place } from '../../lib/placesApi'
+import { placeLocationLabel, priceLabel, type Place } from '../../lib/placesApi'
 import { useFavorites } from '../../lib/favorites'
 
 type Props = {
@@ -68,7 +68,7 @@ export function PlaceCard({ place, variant = 'grid', onOpen }: Props) {
           </div>
           <p className="truncate font-display text-lg font-semibold text-ink">{place.name}</p>
           <p className="flex items-center gap-1 text-sm text-muted">
-            <span>📍</span> {place.neighborhood}, {place.city}
+            <span>📍</span> {placeLocationLabel(place)}
           </p>
           <div className="flex items-center justify-between">
             <Tags tags={place.tags} />
@@ -113,7 +113,7 @@ export function PlaceCard({ place, variant = 'grid', onOpen }: Props) {
         <div>
           <p className="font-display text-lg font-semibold text-ink">{place.name}</p>
           <p className="mt-1 flex items-center gap-1 text-sm text-muted">
-            <span>📍</span> {place.neighborhood}, {place.city}
+            <span>📍</span> {placeLocationLabel(place)}
           </p>
         </div>
         <div className="flex items-end justify-between gap-2">

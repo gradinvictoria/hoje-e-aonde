@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { priceLabel, type Place } from '../../lib/placesApi'
+import { placeLocationLabel, priceLabel, type Place } from '../../lib/placesApi'
 import { canUseNativeShare, copyPlaceLink, shareNative, shareOnInstagram, shareOnWhatsApp } from '../../lib/share'
 import { useFavorites } from '../../lib/favorites'
 import { PlaceMap } from './PlaceMap'
@@ -130,7 +130,8 @@ export function PlaceModal({ place, onClose }: Props) {
             </div>
             <h2 className="font-display text-2xl font-bold text-ink sm:text-3xl">{place.name}</h2>
             <p className="mt-1 flex items-center gap-1 text-sm text-muted">
-              📍 {place.neighborhood}, {place.city} — {place.state}
+              📍 {placeLocationLabel(place)}
+              {place.neighborhood !== place.city && ` — ${place.state}`}
             </p>
           </div>
           <div className="text-right">

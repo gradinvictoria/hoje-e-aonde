@@ -1,11 +1,11 @@
-import type { Place } from './placesApi'
+import { placeLocationLabel, type Place } from './placesApi'
 
 function placeUrl(place: Place): string {
   return `${window.location.origin}/busca?place=${place.id}`
 }
 
 function shareText(place: Place): string {
-  return `Olha o que eu achei no Hoje é aonde?: ${place.name} — ${place.neighborhood}, ${place.city}.`
+  return `Olha o que eu achei no Hoje é aonde?: ${place.name} — ${placeLocationLabel(place)}.`
 }
 
 export function shareOnWhatsApp(place: Place) {

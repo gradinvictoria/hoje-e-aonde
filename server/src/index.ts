@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import { leadsRouter } from "./leads/routes";
 import { placesRouter } from "./places/routes";
+import { adminRouter } from "./admin/routes";
 
 const app = express();
 const PORT = process.env.PORT ?? 4000;
@@ -28,6 +29,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/leads", leadsRouter);
 app.use("/api/places", placesRouter);
+app.use("/api/admin", adminRouter);
 
 app.listen(PORT, () => {
   console.log(`API do Hoje é aonde? rodando em http://localhost:${PORT}`);

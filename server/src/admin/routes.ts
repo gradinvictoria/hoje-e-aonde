@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import { reseedPlacesFromOsm } from "../places/reseedOsm";
+import { applyPlaces } from "../places/applyPlaces";
 
 const prisma = new PrismaClient();
 export const adminRouter = Router();
@@ -25,6 +26,8 @@ function checkAdminKey(req: import("express").Request, res: import("express").Re
   return true;
 }
 
+// Busca no OpenStreetMap e grava, tudo no servidor. Só funciona se o Render
+// conseguir alcançar o Overpass (nem sempre acontece — ver /apply-places).
 adminRouter.post("/reseed-osm", (req, res) => {
   if (!checkAdminKey(req, res)) return;
 
@@ -49,4 +52,24 @@ adminRouter.post("/reseed-osm", (req, res) => {
 adminRouter.get("/reseed-osm", (req, res) => {
   if (!checkAdminKey(req, res)) return;
   res.json(reseedState);
+});
+
+// Recebe uma lista de locais já pronta (buscada em outro lugar, quando o
+// próprio servidor não alcança a fonte de dados) e só grava no banco:
+// apaga tudo em Place e recria com o payload recebido.
+adminRouter.post("/apply-places", async (req, res) => {
+  if (!checkAdminKey(req, res)) return;
+
+  const places = req.body?.places;
+  if (!Array.isArray(places) || places.length === 0) {
+    res.status(400).json({ error: "Envie { places: [...] } com pelo menos um item." });
+    return;
+  }
+
+  try {
+    const result = await applyPlaces(prisma, places);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
+  }
 });

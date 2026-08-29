@@ -16,6 +16,8 @@ export type Place = {
   photos: string[]
   sponsored: boolean
   openNow: boolean
+  lat: number | null
+  lng: number | null
 }
 
 export type PlacesResponse = {

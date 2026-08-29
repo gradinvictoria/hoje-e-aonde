@@ -75,7 +75,7 @@ export function Home() {
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Buscar por lugar, categoria ou vibe..."
+              placeholder="Buscar por lugar, cidade, categoria ou vibe..."
               className="flex-1 rounded-full px-6 py-4 text-sm text-ink placeholder:text-muted-light focus:outline-none"
             />
             <button type="submit" className="rounded-full bg-orange px-8 py-4 text-sm font-bold text-white">

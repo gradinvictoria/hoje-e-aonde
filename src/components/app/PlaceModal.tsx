@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { priceLabel, type Place } from '../../lib/placesApi'
 import { canUseNativeShare, copyPlaceLink, shareNative, shareOnInstagram, shareOnWhatsApp } from '../../lib/share'
 import { useFavorites } from '../../lib/favorites'
+import { PlaceMap } from './PlaceMap'
 
 type Props = {
   place: Place
@@ -164,6 +165,16 @@ export function PlaceModal({ place, onClose }: Props) {
           <h3 className="mb-2 font-display text-lg font-semibold text-ink">Sobre o local</h3>
           <p className="text-[15px] leading-relaxed text-muted">{place.description}</p>
         </div>
+
+        {place.lat != null && place.lng != null && (
+          <>
+            <hr className="my-6 border-[#e6ddd1]" />
+            <div>
+              <h3 className="mb-2 font-display text-lg font-semibold text-ink">Localização</h3>
+              <PlaceMap lat={place.lat} lng={place.lng} label={place.name} />
+            </div>
+          </>
+        )}
 
         <hr className="my-6 border-[#e6ddd1]" />
 

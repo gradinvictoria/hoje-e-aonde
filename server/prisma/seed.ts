@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { geocodeAddress, sleep } from "../src/places/geocode";
 
 const prisma = new PrismaClient();
 
@@ -222,8 +223,12 @@ async function main() {
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
 
+    const coords = await geocodeAddress(place.neighborhood, place.city, place.state);
+    if (!coords) console.log(`  ⚠ sem coordenadas: ${place.name}`);
+    await sleep(1100); // respeita o limite de 1 req/s do Nominatim
+
     await prisma.place.create({
-      data: { ...place, photos: photos(slug) },
+      data: { ...place, photos: photos(slug), lat: coords?.lat, lng: coords?.lng },
     });
   }
 

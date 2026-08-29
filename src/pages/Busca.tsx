@@ -120,7 +120,7 @@ export function Busca() {
           <input
             value={filters.q}
             onChange={(e) => setFilters((f) => ({ ...f, q: e.target.value }))}
-            placeholder="Buscar por lugar, categoria ou vibe..."
+            placeholder="Buscar por lugar, cidade, categoria ou vibe..."
             className="w-full max-w-xl flex-1 rounded-full border border-[#e6ddd1] bg-[#f7f2ec] px-6 py-3.5 text-sm text-ink placeholder:text-muted-light focus:border-orange focus:outline-none"
           />
           <button

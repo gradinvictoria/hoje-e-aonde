@@ -36,6 +36,8 @@ model Place {
   photos       String[]
   sponsored    Boolean  @default(false)
   openNow      Boolean  @default(true)
+  lat          Float?
+  lng          Float?
   criadoEm     DateTime @default(now())
 
   @@index([category])

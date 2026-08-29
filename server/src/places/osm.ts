@@ -28,11 +28,21 @@ const CATEGORY_RULES: CategoryRule[] = [
   { category: "Trilha", match: (t) => t.tourism === "viewpoint" || t.natural === "peak" },
 ];
 
-function describeError(err: unknown): string {
-  if (!(err instanceof Error)) return String(err);
-  const cause = (err as { cause?: unknown }).cause;
-  const causeStr = cause instanceof Error ? ` (causa: ${cause.message})` : cause ? ` (causa: ${String(cause)})` : "";
-  return `${err.message}${causeStr}`;
+// Node/undici costumam envolver a falha real (ENOTFOUND, ECONNREFUSED,
+// timeout...) em várias camadas: AggregateError.errors[], Error.cause, ou
+// Error.code. Desce por tudo isso pra achar o motivo de verdade.
+function describeError(err: unknown, depth = 0): string {
+  if (depth > 4) return "...";
+  if (err && typeof err === "object" && "errors" in err && Array.isArray((err as { errors: unknown[] }).errors)) {
+    return (err as { errors: unknown[] }).errors.map((e) => describeError(e, depth + 1)).join(" | ");
+  }
+  if (err instanceof Error) {
+    const code = (err as NodeJS.ErrnoException).code;
+    const base = `${err.name}${code ? `[${code}]` : ""}: ${err.message || "(sem mensagem)"}`;
+    const cause = (err as { cause?: unknown }).cause;
+    return cause ? `${base} <- ${describeError(cause, depth + 1)}` : base;
+  }
+  return String(err);
 }
 
 function categorize(tags: OsmTags): string | null {

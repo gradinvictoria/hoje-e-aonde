@@ -1,7 +1,7 @@
+import { Link } from 'react-router-dom'
 import { useLeadModal } from '../lib/leadModal'
 
 const NAV_LINKS = [
-  { label: 'Explorar', href: '#busca' },
   { label: 'Como funciona', href: '#como-funciona' },
   { label: 'Para negócios', href: '#para-negocios' },
   { label: 'Sobre', href: '#confianca' },
@@ -18,6 +18,9 @@ export function Header() {
         </a>
 
         <nav className="hidden items-center gap-9 lg:flex">
+          <Link to="/explorar" className="text-[15px] font-medium text-ink hover:text-orange">
+            Explorar
+          </Link>
           {NAV_LINKS.map((link) => (
             <a key={link.href} href={link.href} className="text-[15px] font-medium text-ink hover:text-orange">
               {link.label}
@@ -32,12 +35,12 @@ export function Header() {
           >
             Quero divulgar
           </button>
-          <a
-            href="#busca"
+          <Link
+            to="/explorar"
             className="rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white hover:bg-orange"
           >
             Explorar agora
-          </a>
+          </Link>
         </div>
       </div>
     </header>

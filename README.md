@@ -1,10 +1,30 @@
 # Hoje é aonde?
 
-Site institucional da plataforma **Hoje é aonde?** — landing page de marketing (React + Vite +
-Tailwind) com um back-end mínimo (Express + Prisma + Postgres) que só recebe os cadastros do
-formulário "Quero divulgar meu negócio".
+Plataforma de descoberta de lugares, experiências, aulas e eventos. Tem duas frentes no mesmo
+projeto (React + Vite + Tailwind / Express + Prisma + Postgres):
+
+- **Site institucional** (`/`) — landing page de marketing, com formulário "Quero divulgar meu
+  negócio" que só grava um lead no banco.
+- **Produto** (`/explorar` e `/busca`) — o feed de estabelecimentos (Home) e a busca com filtro
+  lateral (preço, localização, categorias, avaliação, aberto agora, tags), grade/lista e modal de
+  detalhes com galeria de fotos e compartilhamento (WhatsApp/Instagram/link).
 
 Projeto separado do case Vetor/ShopHub — produtos distintos, sem nada em comum além da stack.
+
+## API do produto
+
+- `GET /api/places` — feed/busca paginado, filtros via query string (`q`, `categories`, `tags`,
+  `state`, `city`, `neighborhood`, `minRating`, `priceMin`, `priceMax`, `openNow`, `sort`, `page`,
+  `pageSize`).
+- `GET /api/places/:id` — detalhe usado no modal.
+- `GET /api/places/meta` — categorias/tags/estados/cidades/bairros com contagem, para popular o
+  filtro lateral.
+
+Popule o banco com estabelecimentos de demonstração rodando, dentro de `server/`:
+
+```bash
+npm run seed
+```
 
 ## Rodando localmente
 

@@ -17,3 +17,27 @@ model Lead {
   mensagem     String?
   criadoEm     DateTime @default(now())
 }
+
+// Estabelecimento/experiência/evento listado no feed (Home) e na Busca.
+// avgPrice é o ticket médio em reais — usado no slider de preço e para
+// derivar o selo $ / $$ / $$$ exibido no card.
+model Place {
+  id           String   @id @default(cuid())
+  name         String
+  category     String
+  description  String
+  state        String
+  city         String
+  neighborhood String
+  rating       Float
+  reviewsCount Int
+  avgPrice     Int
+  tags         String[]
+  photos       String[]
+  sponsored    Boolean  @default(false)
+  openNow      Boolean  @default(true)
+  criadoEm     DateTime @default(now())
+
+  @@index([category])
+  @@index([city])
+}

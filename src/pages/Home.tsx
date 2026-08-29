@@ -57,7 +57,7 @@ export function Home() {
 
       <section className="bg-ink px-6 py-8 md:px-12">
         <div className="mx-auto flex max-w-[1440px] flex-col items-center gap-6 text-center md:flex-row md:items-center md:justify-between md:text-left">
-          <div>
+          <div className="md:shrink-0">
             <h1 className="font-display text-2xl font-bold text-white md:text-3xl">
               O que você quer fazer hoje?
             </h1>
@@ -70,7 +70,7 @@ export function Home() {
               e.preventDefault()
               navigate(`/busca${q ? `?q=${encodeURIComponent(q)}` : ''}`)
             }}
-            className="flex w-full max-w-md flex-col gap-3 sm:flex-row md:w-auto md:min-w-[380px]"
+            className="flex w-full max-w-md flex-col gap-3 sm:flex-row md:w-auto md:flex-1 md:max-w-2xl"
           >
             <input
               value={q}
@@ -85,7 +85,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-20">
+      <section className="mx-auto max-w-[1440px] px-6 py-16 md:px-12">
         <h2 className="font-display text-2xl font-semibold text-ink md:text-3xl">Em alta perto de você</h2>
         <p className="mt-1 text-[15px] text-muted">Lugares, experiências, aulas e eventos em destaque hoje.</p>
 
